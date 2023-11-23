@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="src\DS-DIGIB.TTF">
+    <title>Animated Wallpaper Clock</title>
+</head>
+<body>
+    <!-- Main container for parallax effect; all child elements will be affected -->
+    <div class="viewport-container" data-speed="30"> <!-- Set data-speed for parallax intensity -->
+        <div class="bg"></div>
+        <div class="uicontainer">
+            <div class="clock">
+                <span>00</span>
+                <span class="colon">:</span>
+                <span>00</span>
+            </div>
+            <div class="player"">
+                <button class="play" id="play-button" style="background-color: transparent; border: 0; transition: 5s;">
+                    <img src="src\play_arrow_FILL0.svg" style="width: 30px;"></button>
+                <input type="range" class="volume-slider" max="1" step="0.05" value="0.50">
+            </div>           
+        </div>
+    </div>
+
+    <script src="scripts\audio_list.js"></script>  <!-- WebAudio playback -->
+    <script src="image_list.js"></script> <!-- Image list and fade in/out -->
+    <script src="scripts\dy-image-resize.js"></script> <!-- Dynamic image resize & pan speed based on window size -->
+    
+    <script type="text/javascript"> // Parallax effect parameters
+        const viewportContainer = document.querySelector('.viewport-container');
+        viewportContainer.addEventListener("mousemove", parallax);
+        viewportContainer.addEventListener("mouseleave", resetParallax);
+    
+        function parallax(e) { // When mouse is hovered over image:
+            const x = e.clientX / viewportContainer.offsetWidth;
+            const y = e.clientY / viewportContainer.offsetHeight;
+            const speed = viewportContainer.getAttribute('data-speed');
+    
+            viewportContainer.style.transform = `scale(1.1) translate(${x * speed}px, ${y * speed}px)`;
+        }
+        function resetParallax() { // When mouse is hovered off image:
+            viewportContainer.style.transform = 'scale(1)';
+        }
+    </script>
+    
+    <script> // Clock script
+        function updateTime() { 
+            const clockElement = document.querySelector('.clock');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}<span class="blinking">:</span>${minutes}`;
+            clockElement.innerHTML = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+
+    <script> // UI fade in on page reload
+        function UIfadein() { 
+            const ui = document.querySelector('.uicontainer');
+            ui.style.transition = 'opacity 2s ease-in-out'; // Set the transition property
+
+            // Use a setTimeout to change opacity to 1 (100% opacity) after a short delay
+            setTimeout(() => {
+                ui.style.opacity = 1; // Fade-in to 100%
+            }, 100); // Adjust timing to 100ms
+        }
+        UIfadein();
+    </script>
+</body>
+</html>

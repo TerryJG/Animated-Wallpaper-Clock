@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'DS-DIGI';
+    src: url('src/DS-DIGIB.TTF') format('truetype');
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+}
+
+.viewport-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: transform 0.10s linear;
+} 
+.viewport-container:not(:hover) {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: 0.5s;
+}
+
+.bg {
+  background-image: url("src/images/test.jpg");
+  width: 100%;
+  height: 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 2s ease-in-out;
+  opacity: 0;
+  /* VVV Parameters set will be overwritten by javascript code VVV */
+  /* JS: defaultSize */ background-size: 0%; /* Increase background size to enable panning effect */
+  /* JS: defaultSpeedDuration */ animation: panRight 20s linear infinite; /* Adjust duration as needed */
+} @keyframes panRight {
+  0% {
+      background-position: 0% center;
+  }
+  100% {
+      background-position: 100% center;
+  }
+}
+
+.uicontainer {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-items: center;
+  transform: translate(0, 0);
+  transition: transform 0.15s;
+  margin-top: 80px;
+  margin-left: 100px;
+  opacity: 0;
+}
+.clock {
+  font-family: 'DS-DIGI';
+  color: rgb(255, 255, 255);
+  font-size: 100px;
+  left: 10%;
+  top: 10%;
+  z-index: 2;
+  transform: translate(0, 0); /* Apply initial transformation */
+  transition: transform 0.15s; /* Add a transition for smoother transformation */
+} 
+.blinking {
+  animation: blink 1s infinite;
+} @keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.volume-slider:hover {
+  opacity: 100%;
+  transition: 0.5s;
+}
+.volume-slider:not(:hover) {
+  opacity: 45%;
+  transition: 0.5s;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: #ccc;
+  outline: none;
+}
+/* Style the thumb (slider knob) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #007BFF;
+  border: 2px solid #0056b3;
+  border-radius: 50%;
+  cursor: pointer;
+}
